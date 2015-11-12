@@ -1,0 +1,108 @@
+<html>
+<head>
+<style>
+body {
+    font-family:Arial, Helvetica, sans-serif;
+}
+#container{
+    border:5px solid grey;
+    width:800px;
+    margin:0 auto;
+    padding:10px;
+}
+#logDiv{
+    padding:5px;
+    border:1px solid black;
+}
+#logDiv p {
+    margin:0;
+}
+.event {
+    color: grey;
+}
+.warning{
+    color: red;
+}
+.message{
+	font-weight:bold;
+	color: black;
+}
+
+</style>
+
+<script>
+var socket;
+
+function connect(){
+ 
+	try{
+		socket = new WebSocket(url.value, protocol.value);
+		
+		log('event', 'new socket ' + socket.readyState);
+	
+		socket.onopen = function(){
+			log('event', 'open ' + socket.readyState);
+		}
+		
+		socket.onmessage = function(message){
+			log('message', 'received: ' + message.data);
+		}
+		
+		socket.onclose = function(){
+			log('event', 'closed ' + socket.readyState);
+		}
+		
+	}catch(exception){
+		log('warning', 'Connect: ' + exception);
+	}
+}
+
+function send(){
+	
+	try{
+	
+		socket.send(msg.value);
+		log('message', 'Sent: ' + msg.value)
+	
+	} catch(exception){
+		log('warning', 'send: ' + exception);
+	}
+}
+
+function log(type, msg){
+	logDiv.innerHTML = '<p class="' + type + '">' + msg + '</p>' + logDiv.innerHTML;
+}
+
+function disconnect(){
+	socket.close();
+}	
+</script>
+
+<title>WebSockets Test Harness</title> 
+</head>
+
+<body>
+<div id="wrapper">
+    <div id="container">
+        <h2>WebSockets Test Harness</h2>
+		<input id="url" type="text"/>
+		<input id="protocol" type="text"/>
+		<button id="connect" onClick="connect()">Connect</button>
+        <button id="disconnect" onClick="disconnect()">Disconnect</button>
+		<p/>
+		<input id="msg" type="text" value="message"/>
+		<button id="send" onClick="send()">Send</button>
+		<p/>
+        <div id="logDiv">
+        </div>
+
+    </div>
+</div>
+</body>
+
+<script>
+protocol.value = 'clock';
+url.value = 'ws://' + window.location.hostname + ':8080/ws';
+</script>
+
+</html>
