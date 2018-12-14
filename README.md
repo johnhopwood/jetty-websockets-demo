@@ -1,10 +1,10 @@
 # jetty-websockets-demo
 
-###About
+### About
 
 Eclipse project to build Jetty WebSocket server. Jetty servlet bridge implemented using Jetty 9 `WebSocketServlet` and `WebSocketCreator`. Includes a single page HTML/Javascript test harness.
 
-###Install
+### Install
 
 Install Java.
 
@@ -18,7 +18,7 @@ ${jetty.home}/lib/websocket/websocket-api-9.2.13.v20150730.jar
 ```
 Export `root.war` from eclipse, copy to `${jetty.home}/webapps/root.war`
 
-###Running
+### Running
 
 Start Jetty:
 ```
@@ -27,7 +27,7 @@ java -jar start.jar
 ```
 Load WebSockets test harness [http://localhost:8080/](http://localhost:8080/) . Connect using protocols `clock`, `reverse` or `reflect`. WebSockets servlet address is [http://localhost:8080/ws](http://localhost:8080/ws).
 
-###Extending
+### Extending
 
 Validate `ServletUpgradeRequest` in `WebSocketDispatcher` e.g. check for mandatory HTTP headers or known user with `req.getUserPrincipal().getName()`. Returning `null` will close connection before WebSocket is established.
 
